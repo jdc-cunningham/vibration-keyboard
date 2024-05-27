@@ -3,8 +3,8 @@ import time
 from imu.imu import Imu
 
 # human POV (looking at device)
-imu_left = Imu(69)
-imu_right = Imu(68)
+imu_left = Imu(0)
+imu_right = Imu(1)
 
 while (True):
   print('left ' + imu_left.accel[2])

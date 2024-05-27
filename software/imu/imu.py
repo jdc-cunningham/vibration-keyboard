@@ -5,8 +5,7 @@ import smbus
 from time import sleep
 from threading import Thread
 
-bus = smbus.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
-Device_Address = 0x68   # MPU6050 device address
+Device_Address = 0x68   # MPU6050 device address, use sudo i2cdetect -y (#) to confirm # is 0, 1, 2
 
 #some MPU6050 Registers and their Address
 PWR_MGMT_1   = 0x6B
@@ -23,17 +22,18 @@ GYRO_ZOUT_H  = 0x47
 
 # 6050 form factor which GY-91 has same shape
 class Imu:
-  def __init__(self, channel):
+  def __init__(self, bus_num):
     self.sample_imu = False # means its running
     self.accel = [0, 0, 0]
     self.gyro = [0, 0, 0]
     self.magnetometer = [0, 0, 0]
     self.barometer = 0 # lol, using GY-91, I guess you can tell if it's about to rain
+    self.bus = smbus.SMBus(bus_num) # or bus = smbus.SMBus(0) for older version boards
 
   def read_raw_data(self, addr):
     #Accelero and Gyro value are 16-bit
-    high = bus.read_byte_data(Device_Address, addr)
-    low = bus.read_byte_data(Device_Address, addr+1)
+    high = self.bus.read_byte_data(Device_Address, addr)
+    low = self.bus.read_byte_data(Device_Address, addr+1)
 
     #concatenate higher and lower value
     value = ((high << 8) | low)
@@ -47,19 +47,19 @@ class Imu:
     self.sample_imu = True
 
     #write to sample rate register
-    bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
+    self.bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
     
     #Write to power management register
-    bus.write_byte_data(Device_Address, PWR_MGMT_1, 1)
+    self.bus.write_byte_data(Device_Address, PWR_MGMT_1, 1)
     
     #Write to Configuration register
-    bus.write_byte_data(Device_Address, CONFIG, 0)
+    self.bus.write_byte_data(Device_Address, CONFIG, 0)
     
     #Write to Gyro configuration register
-    bus.write_byte_data(Device_Address, GYRO_CONFIG, 24)
+    self.bus.write_byte_data(Device_Address, GYRO_CONFIG, 24)
     
     #Write to interrupt enable register
-    bus.write_byte_data(Device_Address, INT_ENABLE, 1)
+    self.bus.write_byte_data(Device_Address, INT_ENABLE, 1)
 
     while (self.sample_imu):
       #Read Accelerometer raw value
