@@ -1,0 +1,3 @@
+- calibrate IMUs
+- mask
+- experiment with smaller image/speed/view of hands
