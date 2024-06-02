@@ -1,0 +1,2 @@
+- capture video and sync with imu recordings
+- pi zero 2 w ordered for working onboard wifi
