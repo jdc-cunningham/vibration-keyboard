@@ -9,7 +9,7 @@ class Camera:
   def __init__(self):
     self.picam2 = Picamera2()
     self.recording = False
-    self.video_config = self.picam2.create_video_configuration(main = {"size": (1680, 660), "format": "RGB888"})
+    self.video_config = self.picam2.create_video_configuration(main = {"size": (1680, 660), "format": "YUV420"})
     self.encoder = H264Encoder(30000000, repeat = True)
     self.encoder.output = CircularOutput(buffersize = 150)
     self.video_filename = None
