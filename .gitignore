@@ -1,6 +1,9 @@
 # files
 .env
 .pyc
+*.h264
+*.mp4
+*.txt
 
 # folders
 __pycache__
