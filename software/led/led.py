@@ -19,7 +19,7 @@ class Led:
     self.on = True
 
   def turn_off(self):
-    if (self.on): return
+    if (not self.on): return
 
     GPIO.output(self.pin, GPIO.LOW)
     self.on = False
