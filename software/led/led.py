@@ -7,6 +7,8 @@ class Led:
 
     self.setup()
 
+    self.turn_off() # usually some power escapes on boot
+
   def setup(self):
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
