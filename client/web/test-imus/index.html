@@ -125,7 +125,7 @@
           const xTime = Date.now();
           const sensorData = event.data.split(","); // accel, gyro, mag
 
-          console.log('msg', event);
+          // console.log('msg', event);
 
           [0, 1, 2].forEach(dataIndex => {
             myChart.data.datasets[dataIndex].data.push({
